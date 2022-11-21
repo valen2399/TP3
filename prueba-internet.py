@@ -12,26 +12,26 @@ liveness_probability = 70
 
 ### Limitations ###
 
-#The Englishman lives in the red house.
-#The Swede keeps dogs.
-#The Dane drinks tea.
-#The green house is just to the left of the white one.
+#The Englishman lives in the red house. El matemático vive en la casa roja
+#The Swede keeps dogs. El analista usa atoms
+#The Dane drinks tea. El hacker programa en python
+#The green house is just to the left of the white one. La casa verde esta a la derecha de la casa blanca
 #The owner of the green house drinks coffee.
-#The Pall Mall smoker keeps birds.
-#The owner of the yellow house smokes Dunhills.
-#The man in the center house drinks milk.
-#The Norwegian lives in the first house.
-#The Blend smoker has a neighbor who keeps cats.
-#The man who smokes Blue Masters drinks bier.
+#The Pall Mall smoker keeps birds. La persona que usa Neo4J usa Sublime Text.
+#The owner of the yellow house smokes Dunhills. Cassandra es utilizado en la casa amarilla
+#The man in the center house drinks milk. Notepad++ es utilizado en la casa del medio
+#The Norwegian lives in the first house. El dessarrollador vive en la primer casa
+#The Blend smoker has a neighbor who keeps cats. 
+#The man who smokes Blue Masters drinks bier. La persona que usa redis programa en java
 #The man who keeps horses lives next to the Dunhill smoker.
-#The German smokes Prince.
-#The Norwegian lives next to the blue house.
+#The German smokes Prince. El ingeniero usa mongodb
+#The Norwegian lives next to the blue house. El desarrollador vive en la casa azul
 
-colors = 		["red","blue", "green", "white", "yellow"]
+colors = 		["rojo","azul", "verde", "blanco", "amarillo"]
 nationality = 	["Englishman", "Swede", "Norwegian", "German", "Dane"]
-ciagerette = 	["Pall Mall", "Blue Masters", "Prince", "Dunhills", "Blend"]
-animal = 		["dogs", "birds", "cats", "horse", "fish"]
-drink = 		["tea", "coffee", "milk", "bier", "water"]
+ciagerette = 	["Pall Mall", "Blue Masters", "Prince", "Dunhills", "Blend"] #NOSQL
+animal = 		["dogs", "birds", "cats", "horse", "fish"] #Editor de texto
+drink = 		["tea", "coffee", "milk", "bier", "water"] #leng programacion
 
 tableProto = [colors, nationality, ciagerette, animal, drink]
 
@@ -274,13 +274,14 @@ class Puzzle:
             self.mutate()
             
 
-            if approve >= 13:
+            if approve >= 3:
                 break
             pass
 
         self.test()
-        print (self.population[0].table)
-        print (self.population[0].approve)
+        
+        list = [self.population[0].table, self.population[0].approve]
+        return list
 
     def mutate(self):
         for x in range(0,mutants):
@@ -345,4 +346,30 @@ class Puzzle:
 
 
 puz = Puzzle()
-puz.solve()
+solution = puz.solve()
+sol1=[]
+sol2=[]
+sol3=[]
+sol4=[]
+sol5=[]
+cont=0
+for i in solution[0]: #separa en listas las posiciones
+	for j in i:
+		if(cont==0):
+			sol1.append(j)
+		if(cont==1):
+			sol2.append(j)
+		if(cont==2):
+			sol3.append(j)
+		if(cont==3):
+			sol4.append(j)
+		if(cont==4):
+			sol5.append(j)
+		cont=cont+1
+	cont=0
+
+print(sol1[1]+": "+sol1[0]+", "+sol1[2]+", "+sol1[3]+", "+sol1[4])
+print(sol2[1]+": "+sol2[0]+", "+sol2[2]+", "+sol2[3]+", "+sol2[4])
+print(sol3[1]+": "+sol3[0]+", "+sol3[2]+", "+sol3[3]+", "+sol3[4])
+print(sol4[1]+": "+sol4[0]+", "+sol4[2]+", "+sol4[3]+", "+sol4[4])
+print(sol5[1]+": "+sol5[0]+", "+sol5[2]+", "+sol5[3]+", "+sol5[4])
