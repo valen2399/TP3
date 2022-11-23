@@ -1,7 +1,34 @@
-#Solving Einstein's Puzzle with Genetic Algorithm
+#TP3 Algoritmo Genético
 import random
 import copy
 
+
+""" 
+Pistas:
+1. Hay 5 casas.
+2. El Matematico vive en la casa roja.
+3. El hacker programa en Python.
+4. El Brackets es utilizado en la casa verde.
+5. El analista usa Atom.
+6. La casa verde esta a la derecha de la casa blanca.
+7. La persona que usa Redis programa en Java
+8. Cassandra es utilizado en la casa amarilla
+9. Notepad++ es usado en la casa del medio.
+10. El Desarrollador vive en la primer casa.
+11. La persona que usa HBase vive al lado de la que programa en JavaScript.
+12. La persona que usa Cassandra es vecina de la que programa en C#.
+13. La persona que usa Neo4J usa Sublime Text.
+14. El Ingeniero usa MongoDB.
+15. EL desarrollador vive en la casa azul.
+
+¿Quien usa vim?
+
+Resumen:
+Colores = Rojo, Azul, Verde, Blanco, Amarillo
+Profesiones = Matematico, Hacker, Ingeniero, Analista, Desarrollador
+Lenguaje = Python, C#, JAVA, C++, JavaScript
+BD = Cassandra, MongoDB, Neo4j, Redis, HBase
+editor = Brackets, Sublime Text, Atom, Notepad++, Vim """
 
 n_population = 100000
 liveness = 200
@@ -10,30 +37,13 @@ fail_score = 0.5
 punish_score = 1
 liveness_probability = 70
 
-### Limitations ###
+colors = ['roja', 'azul', 'verde', 'blanca', 'amarilla']
+profesiones = ['Matematico', 'Hacker', 'Ingeniero', 'Analista', 'Developer']
+bd = ['Cassandra', 'MongoDB', 'HBase', 'Neo4j', 'Redis']
+animal = ['Brackets', 'Sublime Text', 'Vim', 'Atom', 'Notepad++']
+editor = ['Python', 'C#', 'Java', 'C++', 'Javascript']
 
-#The Englishman lives in the red house. El matemático vive en la casa roja
-#The Swede keeps dogs. El analista usa atoms
-#The Dane drinks tea. El hacker programa en python
-#The green house is just to the left of the white one. La casa verde esta a la derecha de la casa blanca
-#The owner of the green house drinks coffee.
-#The Pall Mall smoker keeps birds. La persona que usa Neo4J usa Sublime Text.
-#The owner of the yellow house smokes Dunhills. Cassandra es utilizado en la casa amarilla
-#The man in the center house drinks milk. Notepad++ es utilizado en la casa del medio
-#The Norwegian lives in the first house. El dessarrollador vive en la primer casa
-#The Blend smoker has a neighbor who keeps cats. 
-#The man who smokes Blue Masters drinks bier. La persona que usa redis programa en java
-#The man who keeps horses lives next to the Dunhill smoker.
-#The German smokes Prince. El ingeniero usa mongodb
-#The Norwegian lives next to the blue house. El desarrollador vive en la casa azul
-
-colors = 		["rojo","azul", "verde", "blanco", "amarillo"]
-nationality = 	["Englishman", "Swede", "Norwegian", "German", "Dane"]
-ciagerette = 	["Pall Mall", "Blue Masters", "Prince", "Dunhills", "Blend"] #NOSQL
-animal = 		["dogs", "birds", "cats", "horse", "fish"] #Editor de texto
-drink = 		["tea", "coffee", "milk", "bier", "water"] #leng programacion
-
-tableProto = [colors, nationality, ciagerette, animal, drink]
+tableProto = [colors, profesiones, bd, animal, editor]
 
 
 class Table:
@@ -61,9 +71,6 @@ class Table:
 		self.table[x][(y+1)%5] = temp
 		random.shuffle(self.table[x])
 
-		#self.table[x][y] = random.sample(tableProto[x], 1)[0]
-		#self.table[x][(y+1)%5] = random.sample(tableProto[x], 1)[0]
-
 	def test(self):
 		#Check consistency
 		for x in range(0,5):
@@ -71,11 +78,10 @@ class Table:
 				self.score -= 2*punish_score
 			pass
 
-		#The Englishman lives in the red house.
+		#El matematico vive en la casa roja.
 		try:
-			i = self.table[1].index('Englishman')
-			if self.table[0][i] == 'red':
-				#print('The Englishman lives in the red house.')
+			i = self.table[1].index('Matematico')
+			if self.table[0][i] == 'roja':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -83,11 +89,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The Swede keeps dogs.
+		#El hacker programa python
 		try:
-			i = self.table[1].index('Swede')
-			if self.table[3][i] == 'dogs':
-				#print('The Swede keeps dogs')
+			i = self.table[1].index('Hacker')
+			if self.table[2][i] == 'Python':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -95,11 +100,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The Dane drinks tea.
+		#Brackets es utilizado en la casa verde.
 		try:
-			i = self.table[1].index('Dane')
-			if self.table[4][i] == 'tea':
-				#print('The Dane drinks tea')
+			i = self.table[0].index('verde')
+			if self.table[4][i] == 'Brackets':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -107,11 +111,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The green house is just to the left of the white one.
+		#El analista usa Atom.
 		try:
-			i = self.table[0].index('green')
-			if self.table[0][i+1] == 'white':
-				#print('The green house is just to the left of the white one.')
+			i = self.table[1].index('Analista')
+			if self.table[4][i] == 'Atom':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -119,11 +122,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The owner of the green house drinks coffee.
+		#La casa verde esta a la derecha de la casa blanca.
 		try:
-			i = self.table[0].index('green')
-			if self.table[4][i] == 'coffee':
-				#print('The owner of the green house drinks coffee.')
+			i = self.table[0].index('verde')
+			if self.table[0][i-1] == 'blanca':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -131,11 +133,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The Pall Mall smoker keeps birds.
+		#La persona que usa Redis programa en Java.
 		try:
-			i = self.table[2].index('Pall Mall')
-			if self.table[3][i] == 'birds':
-				#print('The Pall Mall smoker keeps birds.')
+			i = self.table[2].index('Redis')
+			if self.table[3][i] == 'Java':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -143,11 +144,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The owner of the yellow house smokes Dunhills.
+		#Cassandra es utilizado en la casa amarilla.
 		try:
-			i = self.table[0].index('yellow')
-			if self.table[2][i] == 'Dunhills':
-				#print('The owner of the yellow house smokes Dunhills.')
+			i = self.table[0].index('amarilla')
+			if self.table[2][i] == 'Cassandra':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -155,10 +155,9 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The man in the center house drinks milk.
+		#Notepad++ es usado en la casa del medio.
 		try:
-			if self.table[4][2] == 'milk':
-				#print('The man in the center house drinks milk.')
+			if self.table[4][2] == 'Notepad++':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -166,10 +165,9 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The Norwegian lives in the first house.
+		#El Desarrollador vive en la primer casa.
 		try:
-			if self.table[1][0] == 'Norwegian':
-				#print('The Norwegian lives in the first house.')
+			if self.table[1][0] == 'Hacker':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -177,26 +175,23 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The Blend smoker has a neighbor who keeps cats.
+		#La persona que usa HBase vive al lado de la que programa en Javascript
 		try:
-			i = self.table[2].index('Blend')
+			i = self.table[3].index('HBase')
 			if i==0:
-				if self.table[3][i+1] == 'cats':
-					#print('The Blend smoker has a neighbor who keeps cats.')
+				if self.table[2][i+1] == 'Javascript':
 					self.score += 1
 					self.approve +=1
 				else:
 					self.score -= fail_score
 			elif i==4:
-				if self.table[3][i-1] == 'cats':
-					#print('The Blend smoker has a neighbor who keeps cats.')
+				if self.table[2][i-1] == 'Javascript':
 					self.score += 1
 					self.approve +=1
 				else:
 					self.score -= fail_score
 			else:
-				if self.table[3][i+1] == 'cats' or self.table[3][i-1] == 'cats':
-					#print('The Blend smoker has a neighbor who keeps cats.')
+				if self.table[2][i+1] == 'Javascript' or self.table[2][i-1] == 'Javascript':
 					self.score += 1
 					self.approve +=1
 				else:
@@ -204,11 +199,34 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The man who smokes Blue Masters drinks bier.
+		#La persona que usa Cassandra es vecina de la que programa en C#.
 		try:
-			i = self.table[2].index('Blue Masters')
-			if self.table[4][i] == 'bier':
-				#print('The man who smokes Blue Masters drinks bier.')
+			i = self.table[3].index('Cassandra')
+			if i==0:
+				if self.table[2][i+1] == 'C#':
+					self.score += 1
+					self.approve += 1
+				else:
+					self.score -= fail_score
+			elif i ==4:
+				if self.table[2][i-1] == 'C#':
+					self.score += 1
+					self.approve += 1
+				else:
+					self.score -= fail_score
+			else:
+				if self.table[2][i+1] == 'C#' or self.table[2][i-1] == 'C#':
+					self.score += 1
+					self.approve += 1
+				else:
+					self.score -= fail_score
+		except:
+			self.score -= punish_score
+			
+		#La persona que usa Neo4J usa Sublime Text.
+		try:
+			i = self.table[3].index('Neo4j')
+			if self.table[4][i] == 'Sublime Text':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -216,11 +234,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The man who keeps horses lives next to the Dunhill smoker.
+		#El Ingeniero usa MongoDB.
 		try:
-			i = self.table[3].index('horse')
-			if self.table[2][i-1] == 'Dunhills':
-				#print('The man who keeps horses lives next to the Dunhill smoker.')
+			i = self.table[1].index('Ingeniero')
+			if self.table[3][i] == 'MongoDB':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -228,23 +245,10 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#The German smokes Prince.
+		#EL desarrollador vive en la casa azul.
 		try:
-			i = self.table[1].index('German')
-			if self.table[2][i] == 'Prince':
-				#print('The German smokes Prince.')
-				self.score += 1	
-				self.approve +=1
-			else:
-				self.score -= fail_score
-		except:
-			self.score -= punish_score
-
-		#The Norwegian lives next to the blue house.
-		try:
-			i = self.table[1].index('Norwegian')
-			if self.table[0][i+1] == 'blue':
-				#print('The Norwegian lives next to the blue house.')
+			i = self.table[1].index('Hacker')
+			if self.table[0][i+1] == 'azul':
 				self.score += 1	
 				self.approve +=1
 			else:
@@ -274,7 +278,7 @@ class Puzzle:
             self.mutate()
             
 
-            if approve >= 3:
+            if approve >= 4:  #chequear iteraciones
                 break
             pass
 
