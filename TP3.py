@@ -30,7 +30,7 @@ Lenguaje = Python, C#, JAVA, C++, JavaScript
 BD = Cassandra, MongoDB, Neo4j, Redis, HBase
 editor = Brackets, Sublime Text, Atom, Notepad++, Vim """
 
-n_population = 100000
+n_population = 100000 #estaba en 100000
 liveness = 200
 mutants = 200
 fail_score = 0.5
@@ -40,10 +40,10 @@ liveness_probability = 70
 colors = ['roja', 'azul', 'verde', 'blanca', 'amarilla']
 profesiones = ['Matematico', 'Hacker', 'Ingeniero', 'Analista', 'Developer']
 bd = ['Cassandra', 'MongoDB', 'HBase', 'Neo4j', 'Redis']
-animal = ['Brackets', 'Sublime Text', 'Vim', 'Atom', 'Notepad++']
-editor = ['Python', 'C#', 'Java', 'C++', 'Javascript']
+editor = ['Brackets', 'Sublime Text', 'Vim', 'Atom', 'Notepad++']
+lenguaje = ['Python', 'C#', 'Java', 'C++', 'Javascript']
 
-tableProto = [colors, profesiones, bd, animal, editor]
+tableProto = [colors, profesiones, bd, editor, lenguaje]
 
 
 class Table:
@@ -278,7 +278,7 @@ class Puzzle:
             self.mutate()
             
 
-            if approve >= 4:  #chequear iteraciones
+            if approve >= 5:  #chequear iteraciones
                 break
             pass
 
