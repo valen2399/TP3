@@ -1,10 +1,5 @@
-#TP3 Algoritmo Genético
-import random
-import copy
-
-
-""" 
-Pistas:
+'''
+Condiciones:
 1. Hay 5 casas.
 2. El Matematico vive en la casa roja.
 3. El hacker programa en Python.
@@ -21,19 +16,24 @@ Pistas:
 14. El Ingeniero usa MongoDB.
 15. EL desarrollador vive en la casa azul.
 
-¿Quien usa vim?
+Quien usa vim?
+
 
 Resumen:
 Colores = Rojo, Azul, Verde, Blanco, Amarillo
 Profesiones = Matematico, Hacker, Ingeniero, Analista, Desarrollador
 Lenguaje = Python, C#, JAVA, C++, JavaScript
 BD = Cassandra, MongoDB, Neo4j, Redis, HBase
-editor = Brackets, Sublime Text, Atom, Notepad++, Vim """
+editor = Brackets, Sublime Text, Atom, Notepad++, Vim
+'''
 
-n_population = 100000 #estaba en 100000
+import random
+import time
+
+n_population = 100000 
 liveness = 200
 mutants = 200
-fail_score = 0.5
+fail_score = 1
 punish_score = 1
 liveness_probability = 70
 
@@ -46,7 +46,7 @@ lenguaje = ['Python', 'C#', 'Java', 'C++', 'Javascript']
 tableProto = [colors, profesiones, bd, editor, lenguaje]
 
 
-class Table:
+class Phenotype:
 
 	def __init__(self):
 		self.table = [[0 for x in range(5)] for x in range(5)] 
@@ -245,7 +245,7 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#EL desarrollador vive en la casa azul.
+		#EL Desarrollador vive en la casa azul.
 		try:
 			i = self.table[1].index('Hacker')
 			if self.table[0][i+1] == 'azul':
@@ -256,13 +256,11 @@ class Table:
 		except:
 			self.score -= punish_score
 
-		#print(self.table)
-		#print(self.score)
-
-class Puzzle:
+class Riddle:
 
     def __init__(self):
-            self.population = []
+        self.start_time = time.time()
+        self.population = []
 
     def solve(self):
 
@@ -278,7 +276,7 @@ class Puzzle:
             self.mutate()
             
 
-            if approve >= 5:  #chequear iteraciones
+            if approve >= 5:  #Debería ser 15 la condición de corte 
                 break
             pass
 
@@ -296,7 +294,7 @@ class Puzzle:
 
     def generate(self, i):
         for x in range(0,i):
-            newborn = Table()
+            newborn = Phenotype()
             newborn.randFill()
             self.population.append(newborn)
             pass
@@ -322,8 +320,7 @@ class Puzzle:
         self.population = newGeneration
 
     def cross(self, first, second, third):
-        newborn = Table()
-        #newborn.randFill()
+        newborn = Phenotype()
         for x in range(0,5):
             for y in range(0,5):
 
@@ -345,12 +342,18 @@ class Puzzle:
 
         self.population.sort(key=lambda x: x.score, reverse=True)
         for x in range(0,1):
-            print (self.population[x].approve)
+            print ('Approved: ' + str(self.population[x].approve))
             pass
 
 
-puz = Puzzle()
-solution = puz.solve()
+start = time.time()
+
+rid = Riddle()
+solution = rid.solve()
+
+end = time.time()
+hours, rem = divmod(end-start, 3600)
+minutes, seconds = divmod(rem, 60)
 sol1=[]
 sol2=[]
 sol3=[]
@@ -377,3 +380,4 @@ print(sol2[1]+": "+sol2[0]+", "+sol2[2]+", "+sol2[3]+", "+sol2[4])
 print(sol3[1]+": "+sol3[0]+", "+sol3[2]+", "+sol3[3]+", "+sol3[4])
 print(sol4[1]+": "+sol4[0]+", "+sol4[2]+", "+sol4[3]+", "+sol4[4])
 print(sol5[1]+": "+sol5[0]+", "+sol5[2]+", "+sol5[3]+", "+sol5[4])
+print("Tiempo transcurrido {:0>2}:{:0>2}:{:05.2f}".format(int(hours),int(minutes),seconds))
